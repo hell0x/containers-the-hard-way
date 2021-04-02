@@ -35,6 +35,7 @@ func stringInSlice(a string, list []string) bool {
 	return false
 }
 
+// 如果不存在创建目录
 func createDirsIfDontExist(dirs []string) error {
 	for _, dir := range dirs {
 		if _, err := os.Stat(dir); os.IsNotExist(err) {

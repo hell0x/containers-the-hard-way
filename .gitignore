@@ -1,0 +1,16 @@
+# mac, linux
+.DS_Store
+*.*~
+
+# IDE
+.vscode/
+.idea/
+
+# local
+vendor/
+target/*
+logs/
+applogs/
+bin/
+
+*.log

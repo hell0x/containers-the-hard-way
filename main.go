@@ -20,20 +20,25 @@ func usage() {
 }
 
 func main() {
+	/* 支持的命令 */
 	options := []string{"run", "child-mode", "setup-netns", "setup-veth", "ps", "exec", "images", "rmi"}
 
+	/* 参数校验 */
 	if len(os.Args) < 2 || !stringInSlice(os.Args[1], options) {
 		usage()
 		os.Exit(1)
 	}
+	/* 随机数处理 */
 	rand.Seed(time.Now().UnixNano())
 
 	/* We chroot and write to privileged directories. We need to be root */
+	/* 因为需要创建目录和授权等所以需要root权限 */
 	if os.Geteuid() != 0 {
 		log.Fatal("You need root privileges to run this program.")
 	}
 
 	/* Create the directories we require */
+	/* 创建需要的基础目录 */
 	if err := initGockerDirs(); err != nil {
 		log.Fatalf("Unable to create requisite directories: %v", err)
 	}
