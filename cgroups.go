@@ -8,6 +8,14 @@ import (
 	"strconv"
 )
 
+/**
+ * 一种linux内核机制，可以根据需求把一系列系统任务及其子任务整合(或分隔)到按资源划分等级的不同组内，从而为系统资源管理提供一个统一的框架
+ */
+
+
+/**
+ * 创建cgroups
+ */
 func createCGroups(containerID string, createCGroupDirs bool) {
 	cgroups := []string{"/sys/fs/cgroup/memory/gocker/" + containerID,
 						"/sys/fs/cgroup/pids/gocker/" + containerID,
@@ -26,6 +34,9 @@ func createCGroups(containerID string, createCGroupDirs bool) {
 	}
 }
 
+/**
+ * 移除cgroups
+ */
 func removeCGroups(containerID string) {
 	cgroups := []string{"/sys/fs/cgroup/memory/gocker/" + containerID,
 		"/sys/fs/cgroup/pids/gocker/" + containerID,
@@ -36,9 +47,14 @@ func removeCGroups(containerID string) {
 	}
 }
 
+/**
+ * 设置内存限制
+ */
 func setMemoryLimit(containerID string, limitMB int, swapLimitInMB int) {
+	// 内存限制
 	memFilePath := "/sys/fs/cgroup/memory/gocker/" + containerID +
 											"/memory.limit_in_bytes"
+	// swap限制
 	swapFilePath := "/sys/fs/cgroup/memory/gocker/" + containerID +
 		"/memory.memsw.limit_in_bytes"
 	doOrDieWithMsg(ioutil.WriteFile(memFilePath,
@@ -59,6 +75,9 @@ func setMemoryLimit(containerID string, limitMB int, swapLimitInMB int) {
 	}
 }
 
+/**
+ * 设置cpu限制
+ */
 func setCpuLimit(containerID string, limit float64)  {
 	cfsPeriodPath := "/sys/fs/cgroup/cpu/gocker/" + containerID +
 		"/cpu.cfs_period_us"
@@ -80,6 +99,9 @@ func setCpuLimit(containerID string, limit float64)  {
 
 }
 
+/**
+ * 设置pid
+ */
 func setPidsLimit(containerID string, limit int)  {
 	maxProcsPath := "/sys/fs/cgroup/pids/gocker/" + containerID +
 		"/pids.max"
